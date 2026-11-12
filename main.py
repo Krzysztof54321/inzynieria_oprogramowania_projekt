@@ -1,11 +1,19 @@
 from flask import Flask, redirect, render_template
+from db import db
 
 app = Flask('name')
 
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///budget.db"
 
+db.init_app(app)
+
+from models import User#, Category, Transaction
+
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
-def home():
+def home():  
     return render_template('index.html')
 
 @app.route('/login')
