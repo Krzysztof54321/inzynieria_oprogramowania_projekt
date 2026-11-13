@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Ustal Budżet{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Ustal nowy budżet</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Szczegóły budżetu</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('add_budget') }}">
+                        
+                        <!-- Nazwa budżetu -->
+                        <div class="mb-3">
+                            <label for="budgetName" class="form-label">Nazwa budżetu</label>
+                            <input type="text" class="form-control" id="budgetName" name="name" 
+                                   placeholder="np. Budżet domowy - Listopad" required>
+                            <div class="form-text">Krótka, rozpoznawalna nazwa dla tego budżetu.</div>
+                        </div>
+
+                        <!-- Kategoria -->
+                        <div class="mb-3">
+                            <label for="budgetCategory" class="form-label">Kategoria</label>
+                            <select class="form-select" id="budgetCategory" name="category" required>
+                                <option value="" disabled selected>Wybierz kategorię</option>
+                                <option value="Samochod">Samochód</option>
+                                <option value="Remont">Remont</option>
+                                <option value="Zakupy">Zakupy</option>
+                                <option value="Rozrywka">Rozrywka</option>
+                                <option value="Inne">Inne</option>
+                            </select>
+                        </div>
+
+                        <!-- Kwota budżetu -->
+                        <div class="mb-3">
+                            <label for="budgetAmount" class="form-label">Kwota budżetu (PLN)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">zł</span>
+                                <input type="number" class="form-control" id="budgetAmount" name="amount" 
+                                       step="0.01" min="0" placeholder="0.00" required>
+                            </div>
+                        </div>
+
+                        <!-- Miesiąc i rok -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="budgetMonth" class="form-label">Miesiąc</label>
+                                <select class="form-select" id="budgetMonth" name="month" required>
+                                    <option value="" disabled selected>Wybierz miesiąc</option>
+                                    <option value="1">Styczeń</option>
+                                    <option value="2">Luty</option>
+                                    <option value="3">Marzec</option>
+                                    <option value="4">Kwiecień</option>
+                                    <option value="5">Maj</option>
+                                    <option value="6">Czerwiec</option>
+                                    <option value="7">Lipiec</option>
+                                    <option value="8">Sierpień</option>
+                                    <option value="9">Wrzesień</option>
+                                    <option value="10">Październik</option>
+                                    <option value="11">Listopad</option>
+                                    <option value="12">Grudzień</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="budgetYear" class="form-label">Rok</label>
+                                <input type="number" class="form-control" id="budgetYear" name="year" 
+                                       value="2025" min="2020" max="2100" required>
+                            </div>
+                        </div>
+
+                        <!-- Przyciski -->
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save fa-sm text-white-50"></i> Zapisz budżet
+                        </button>
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">Anuluj</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
