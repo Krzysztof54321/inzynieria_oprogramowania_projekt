@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Register</title>
+    <title>Rejestracja</title>
 
     <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -33,7 +33,7 @@
 
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">
-                                            Create an Account!
+                                            Utwórz konto!
                                         </h1>
                                     </div>
                                     {% if error %}
@@ -50,7 +50,7 @@
                                             <input type="text"
                                                 class="form-control form-control-user"
                                                 name="username"
-                                                placeholder="Username"
+                                                placeholder="Nazwa użytkownika"
                                                 required>
                                         </div>
 
@@ -58,7 +58,7 @@
                                             <input type="email"
                                                 class="form-control form-control-user"
                                                 name="email"
-                                                placeholder="Email Address"
+                                                placeholder="Email"
                                                 required>
                                         </div>
 
@@ -66,13 +66,13 @@
                                             <input type="password"
                                                 class="form-control form-control-user"
                                                 name="password"
-                                                placeholder="Password"
+                                                placeholder="Hasło"
                                                 required>
                                         </div>
 
                                         <button type="submit"
                                                 class="btn btn-primary btn-user btn-block">
-                                            Register Account
+                                            Utwórz konto
                                         </button>
 
                                         <hr>
@@ -83,7 +83,7 @@
 
                                     <div class="text-center">
                                         <a class="small" href="{{ url_for('login') }}">
-                                            Already have an account? Login!
+                                            Masz już konto? Zaloguj się!
                                         </a>
                                     </div>
 
