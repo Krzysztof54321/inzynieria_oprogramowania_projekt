@@ -7,13 +7,12 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Podsumowanie</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-sm text-white-50"></i> Dodaj wpis
-        </a>
+
     </div>
 
     <!-- Content Row -->
     <div class="row">
+        <!-- ZAROBKI MIES -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
@@ -21,7 +20,9 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Zarobki (miesięczne)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ "%.2f"|format(monthly_income) }} PLN
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -30,15 +31,17 @@
                 </div>
             </div>
         </div>
-
+        <!-- WYDATKI MIESIECZNIE -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Zarobki (Roczne)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                Wydatki</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ "%.2f"|format(monthly_expense) }} PLN
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -47,24 +50,19 @@
                 </div>
             </div>
         </div>
-
+        <!-- SALDO -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Pozostały budżet (ten miesiąc)</div>
+                                Saldo</div>
                             <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">6400 PLN</div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                             style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                {{ "%.2f"|format(balance) }} PLN
+                            </div>
+
                             </div>
                         </div>
                         <div class="col-auto">
@@ -74,8 +72,183 @@
                 </div>
             </div>
         </div>
-    </div>
+        <!-- TRANSAKCJE -->
+        <div class="card shadow mb-4">
 
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Ostatnie transakcje
+                </h6>
+            </div>
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered">
+
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Nazwa</th>
+                                <th>Kategoria</th>
+                                <th>Typ</th>
+                                <th>Kwota</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% if recent_transactions %}
+
+                                {% for transaction in recent_transactions %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ transaction.date.strftime('%d-%m-%Y') }}
+                                    </td>
+
+                                    <td>
+                                        {{ transaction.name }}
+                                    </td>
+
+                                    <td>
+                                        {{ transaction.category }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if transaction.type == "expense" %}
+
+                                            <span class="badge badge-danger">
+                                                Wydatek
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge badge-success">
+                                                Przychód
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if transaction.type == "expense" %}
+
+                                            <span class="text-danger">
+                                                - {{ "%.2f"|format(transaction.amount) }} zł
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="text-success">
+                                                + {{ "%.2f"|format(transaction.amount) }} zł
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <tr>
+
+                                    <td colspan="5" class="text-center">
+                                        Brak transakcji
+                                    </td>
+
+                                </tr>
+
+                            {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- BUDGET -->
+        <div class="card shadow mb-4">
+        <div class="card-header py-3">
+
+            <h6 class="m-0 font-weight-bold text-primary">
+                Wykorzystanie budżetów
+            </h6>
+
+        </div>
+        <div class="card-body">
+
+            {% if budget_usage %}
+
+                {% for budget in budget_usage %}
+
+                    <div class="d-flex justify-content-between mb-1">
+
+                        <div class="row">
+
+                            <div class="col-7">
+
+                                <strong>
+                                    {{ budget.category }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ budget.month_name }} {{ budget.year }}
+                                </small>
+
+                            </div>
+
+                            <div class="col-5 text-right">
+
+                                {{ "%.2f"|format(budget.spent) }}
+                                /
+
+                                {{ "%.2f"|format(budget.budget) }}
+                                zł
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                <div class="progress mb-4">
+
+                <div class="progress-bar {% if budget.exceeded %}bg-danger{% else %}bg-info{% endif %}"
+                    role="progressbar"
+                    style="width: {{ budget.percentage }}%">
+                    
+                </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                Brak ustawionych budżetów.
+
+            {% endif %}
+
+        </div>
+
+    </div>
+    </div>
+    
 {% endblock %}
 
 {% block scripts %}

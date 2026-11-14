@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Budżety{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+
+        <h1 class="h3 mb-0 text-gray-800">
+            Budżety
+        </h1>
+
+        <a href="{{ url_for('add_budget') }}"
+           class="btn btn-primary shadow-sm">
+
+            <i class="fas fa-plus fa-sm text-white-50"></i>
+            Dodaj budżet
+
+        </a>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3">
+
+            <h6 class="m-0 font-weight-bold text-primary">
+                Lista budżetów
+            </h6>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+
+                    <thead>
+
+                        <tr>
+                            <th>Kategoria</th>
+                            <th>Limit</th>
+                            <th>Miesiąc</th>
+                            <th>Rok</th>
+                            <th>Akcje</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% if budgets %}
+
+                            {% for budget in budgets %}
+
+                            <tr>
+
+                                <td>
+                                    {{ budget.category }}
+                                </td>
+
+                                <td>
+                                    {{ "%.2f"|format(budget.amount) }} zł
+                                </td>
+
+                                <td>
+                                    {% set months = {
+                                        1: 'Styczeń',
+                                        2: 'Luty',
+                                        3: 'Marzec',
+                                        4: 'Kwiecień',
+                                        5: 'Maj',
+                                        6: 'Czerwiec',
+                                        7: 'Lipiec',
+                                        8: 'Sierpień',
+                                        9: 'Wrzesień',
+                                        10: 'Październik',
+                                        11: 'Listopad',
+                                        12: 'Grudzień'
+                                    } %}
+
+                                    {{ months[budget.month] }}
+                                </td>
+
+
+                                <td>
+                                    {{ budget.year }}
+                                </td>
+
+                                <td>
+
+                                    <a href="{{ url_for('delete_budget',
+                                                        budget_id=budget.id) }}"
+                                       class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Czy na pewno usunąć ten budżet?')">
+
+                                        <i class="fas fa-trash"></i>
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <tr>
+
+                                <td colspan="5" class="text-center">
+                                    Brak budżetów
+                                </td>
+
+                            </tr>
+
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

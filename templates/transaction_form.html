@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Dodaj transakcję{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            Dodaj transakcję
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Szczegóły transakcji
+                    </h6>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST"
+                          action="{{ url_for('add_transaction') }}">
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Nazwa
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="name"
+                                   placeholder="np. Biedronka"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Typ
+                            </label>
+
+                            <select class="form-select"
+                                    name="type"
+                                    required>
+
+                                <option value="" disabled selected>
+                                    Wybierz
+                                </option>
+
+                                <option value="income">
+                                    Przychód
+                                </option>
+
+                                <option value="expense">
+                                    Wydatek
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Kategoria
+                            </label>
+
+                            <select class="form-select"
+                                    name="category"
+                                    required>
+
+                                <option value="Żywność">
+                                    Żywność
+                                </option>
+
+                                <option value="Transport">
+                                    Transport
+                                </option>
+
+                                <option value="Mieszkanie">
+                                    Mieszkanie
+                                </option>
+
+                                <option value="Rozrywka">
+                                    Rozrywka
+                                </option>
+
+                                <option value="Zdrowie">
+                                    Zdrowie
+                                </option>
+
+                                <option value="Inne">
+                                    Inne
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Kwota
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    zł
+                                </span>
+
+                                <input type="number"
+                                       class="form-control"
+                                       name="amount"
+                                       step="0.01"
+                                       min="0.01"
+                                       required>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Data
+                            </label>
+
+                            <input type="date"
+                                   class="form-control"
+                                   name="date"
+                                   required>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="fas fa-save fa-sm text-white-50"></i>
+
+                            Zapisz transakcję
+
+                        </button>
+
+                        <a href="{{ url_for('index') }}"
+                           class="btn btn-secondary">
+
+                            Anuluj
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

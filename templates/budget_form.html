@@ -18,24 +18,40 @@
                     <form method="POST" action="{{ url_for('add_budget') }}">
                         
                         <!-- Nazwa budżetu -->
-                        <div class="mb-3">
-                            <label for="budgetName" class="form-label">Nazwa budżetu</label>
-                            <input type="text" class="form-control" id="budgetName" name="name" 
-                                   placeholder="np. Budżet domowy - Listopad" required>
-                            <div class="form-text">Krótka, rozpoznawalna nazwa dla tego budżetu.</div>
-                        </div>
 
                         <!-- Kategoria -->
                         <div class="mb-3">
                             <label for="budgetCategory" class="form-label">Kategoria</label>
-                            <select class="form-select" id="budgetCategory" name="category" required>
-                                <option value="" disabled selected>Wybierz kategorię</option>
-                                <option value="Samochod">Samochód</option>
-                                <option value="Remont">Remont</option>
-                                <option value="Zakupy">Zakupy</option>
-                                <option value="Rozrywka">Rozrywka</option>
-                                <option value="Inne">Inne</option>
+                            <select class="form-select"
+                                    name="category"
+                                    required>
+
+                                <option value="Żywność">
+                                    Żywność
+                                </option>
+
+                                <option value="Transport">
+                                    Transport
+                                </option>
+
+                                <option value="Mieszkanie">
+                                    Mieszkanie
+                                </option>
+
+                                <option value="Rozrywka">
+                                    Rozrywka
+                                </option>
+
+                                <option value="Zdrowie">
+                                    Zdrowie
+                                </option>
+
+                                <option value="Inne">
+                                    Inne
+                                </option>
+
                             </select>
+
                         </div>
 
                         <!-- Kwota budżetu -->
@@ -71,7 +87,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="budgetYear" class="form-label">Rok</label>
                                 <input type="number" class="form-control" id="budgetYear" name="year" 
-                                       value="2025" min="2020" max="2100" required>
+                                       value="2026" min="2020" max="2100" required>
                             </div>
                         </div>
 
