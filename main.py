@@ -5,7 +5,7 @@ from datetime import datetime
 app = Flask('name')
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///budget.db"
-app.secret_key = "jakis_tymczasowy_sekret"
+app.secret_key = "sekret"
 
 db.init_app(app)
 
@@ -24,19 +24,13 @@ def index():
 
     user = User.query.get(session["user_id"])
 
-    budgets = Budget.query.filter_by(
-        user_id=session["user_id"]
-    ).all()
+    budgets = Budget.query.filter_by(user_id=session["user_id"]).all()
 
-    transactions = Transaction.query.filter_by(
-        user_id=session["user_id"]
-    ).all()
+    transactions = Transaction.query.filter_by(user_id=session["user_id"]).all()
 
     recent_transactions = Transaction.query.filter_by(
-        user_id=session["user_id"]
-    ).order_by(
-        Transaction.date.desc()
-    ).limit(10).all()
+        user_id=session["user_id"]).order_by(
+        Transaction.date.desc()).limit(10).all()
 
     monthly_income = sum(
         t.amount
@@ -101,13 +95,16 @@ def budgets():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
+    user = User.query.get(session["user_id"])
+
     budgets = Budget.query.filter_by(
         user_id=session["user_id"]
     ).all()
 
     return render_template(
         "budgets.html",
-        budgets=budgets
+        budgets=budgets,
+        user=user
     )
 
 @app.route('/budget/add', methods=['GET', 'POST'])
@@ -116,15 +113,15 @@ def add_budget():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
+    user = User.query.get(session["user_id"])
+
+
     if request.method == 'POST':
 
         category = request.form.get('category')
         amount = request.form.get('amount')
         month = request.form.get('month')
         year = request.form.get('year')
-
-        if not all([category, amount, month, year]):
-            return "Wszystkie pola są wymagane!", 400
 
         new_budget = Budget(
             user_id=session["user_id"],
@@ -134,17 +131,14 @@ def add_budget():
             year=int(year)
         )
 
-        try:
-            db.session.add(new_budget)
-            db.session.commit()
+        db.session.add(new_budget)
+        db.session.commit()
 
-            return redirect(url_for('index'))
+        return redirect(url_for('index'))
 
-        except Exception as e:
-            db.session.rollback()
-            return f"Błąd zapisu: {e}", 500
 
-    return render_template('budget_form.html')
+
+    return render_template('budget_form.html', user=user)
 
 @app.route('/budget/delete/<int:budget_id>')
 def delete_budget(budget_id):
@@ -172,6 +166,8 @@ def add_transaction():
 
     if "user_id" not in session:
         return redirect(url_for("login"))
+    
+    user = User.query.get(session["user_id"])
 
     if request.method == 'POST':
 
@@ -193,7 +189,8 @@ def add_transaction():
         return redirect(url_for("index"))
 
     return render_template(
-        "transaction_form.html"
+        "transaction_form.html",
+        user=user
     )
 
 @app.route('/transaction/delete/<int:transaction_id>')
@@ -220,6 +217,8 @@ def transactions():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
+    user = User.query.get(session["user_id"])
+
     transactions = Transaction.query.filter_by(
         user_id=session["user_id"]
     ).order_by(
@@ -228,7 +227,8 @@ def transactions():
 
     return render_template(
         "transactions.html",
-        transactions=transactions
+        transactions=transactions,
+        user=user
     )
 
 @app.route("/login", methods=["GET", "POST"])
@@ -314,4 +314,4 @@ def logout():
     return redirect(url_for("login"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0",port=5000,debug=True)
