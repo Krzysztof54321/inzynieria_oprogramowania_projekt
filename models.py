@@ -56,9 +56,6 @@ class Budget(db.Model):
 
         return months.get(self.month)
 
-    def __repr__(self):
-        return f'<Budget {self.category}>'
-
 class Transaction(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
